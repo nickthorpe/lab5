@@ -14,6 +14,30 @@
 
     returns undefined (array is sorted in place)
 */
+
+$(function() {
+  // Document is ready
+  var entries = Employees.entries;
+  render(entries);
+  $( '.sort-ui .btn' ).click(function() {
+      var sortBtn = $(this);
+      var sortAttr = sortBtn.attr('data-sortby');
+      sortObjArray(entries, sortAttr);
+      render(entries);
+      var activeBtn = sortBtn.siblings('active');
+      activeBtn.removeClass('active');
+      sortBtn.addClass('active');
+    });
+  $('.sort-ui .btn').popover({
+        content: 'Click to Resort',   
+        container: 'body',
+        trigger: 'hover',
+        placement: 'bottom'
+    })
+});
+
+
+
 function sortObjArray(objArray, propName) {
     if (!objArray.sort)
         throw new Error('The objArray parameter does not seem to be an array (no sort method)');
@@ -34,3 +58,26 @@ function sortObjArray(objArray, propName) {
     });
 } //sortObjArray()
 
+function render(entries) {
+	var address = $('.address-book');
+	var template = $('.template');
+	var instance;
+    address.hide();
+	address.empty();
+	$.each(entries, function() {
+		instance = template.clone();
+		instance.find('.last').html(this.last);
+        instance.find('.first').html(this.first);
+        instance.find('.title').html(this.title);
+        instance.find('.dept').html(this.dept);
+        instance.find('.pic').attr({
+            src: this.pic,
+            alt: 'Picture of ' + this.first
+        });
+   		instance.removeClass('template');
+        address.append(instance);
+        address.fadeIn();       
+	});
+} 
+
+    
