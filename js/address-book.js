@@ -20,16 +20,19 @@ $(function() {
   var entries = Employees.entries;
   render(entries);
   $( '.sort-ui .btn' ).click(function() {
-      var sortBtn = $(this);
-      var sortAttr = sortBtn.attr('data-sortby');
-      sortObjArray(entries, sortAttr);
-      render(entries);
-      var activeBtn = sortBtn.siblings('active');
-      activeBtn.removeClass('active');
-      sortBtn.addClass('active');
+        var sortBtn = $(this);
+        var sortAttr = sortBtn.attr('data-sortby');
+        sortObjArray(entries, sortAttr);
+        render(entries);
+        $.each(sortBtn.siblings(), function() {
+            var sib = $(this);
+            sib.removeClass('active')
+        });
     });
   $('.sort-ui .btn').popover({
-        content: 'Click to Resort',   
+        content: function() {
+            return 'Click to Resort by ' + $(this).html();
+        },    
         container: 'body',
         trigger: 'hover',
         placement: 'bottom'
