@@ -28,6 +28,7 @@ $(function() {
             var sib = $(this);
             sib.removeClass('active')
         });
+        sortBtn.addClass('active');
     });
   $('.sort-ui .btn').popover({
         content: function() {
